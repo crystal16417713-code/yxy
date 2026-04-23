@@ -2,32 +2,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>系统验证</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body { background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; color: #00ff41; overflow: hidden; }
-        .label { color: #666; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px; }
-        #num { font-size: 6rem; font-weight: bold; text-shadow: 0 0 15px rgba(0,255,65,0.7); }
+        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; }
+        #num { font-size: 6rem; font-weight: bold; }
     </style>
 </head>
 <body>
-    <div class="label">DAILY SECURE CODE</div>
+    <div style="color:#666">DAILY CODE</div>
     <div id="num">--</div>
     <script>
-        // 获取当前日期（年-月-日）
         const d = new Date();
-        const dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-        
-        // 简单的哈希算法，保证同一天生成的数字固定
-        let hash = 0;
-        for (let i = 0; i < dateStr.length; i++) {
-            hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
-            hash |= 0;
-        }
-        
-        // 映射到 1-64 之间
-        const finalNum = Math.abs(hash % 64) + 1;
-        document.getElementById('num').innerText = finalNum;
+        const s = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+        document.getElementById('num').innerText = Math.abs(h % 64) + 1;
     </script>
 </body>
 </html>
