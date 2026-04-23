@@ -4,27 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; overflow: hidden; }
-        .label { color: #444; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 10px; }
-        #num { font-size: 8rem; font-weight: bold; text-shadow: 0 0 20px #00ff41; }
+        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; overflow: hidden; }
+        .label { color: #333; font-size: 10px; letter-spacing: 4px; margin-bottom: 5px; }
+        #num { font-size: 110px; font-weight: bold; text-shadow: 0 0 20px #00ff41; margin: 10px 0; }
+        #msg-en { color: #00ff41; font-size: 1rem; letter-spacing: 1px; text-align: center; padding: 0 30px; opacity: 0.9; font-family: 'Courier New', monospace; }
+        #msg-zh { color: #008f11; font-size: 0.9rem; margin-top: 8px; letter-spacing: 2px; text-align: center; }
+        .line { width: 40px; height: 1px; background: #222; margin: 15px 0; }
     </style>
 </head>
 <body>
-    <div class="label">UNIQUE TOKEN</div>
+    <div class="label">TIANSHUI GATEWAY</div>
     <div id="num">--</div>
+    <div class="line"></div>
+    <div id="msg-en">--</div>
+    <div id="msg-zh">--</div>
+
     <script>
-        // 尝试从手机本地存储读取已有的数字
-        let savedNum = localStorage.getItem('my_unique_code');
+        const messages = [
+            { en: "Fortune favors the bold.", zh: "上天眷顾勇敢的人" },
+            { en: "Believe in the power of now.", zh: "相信当下的力量" },
+            { en: "Light always follows the dark.", zh: "微光总在暗处后点亮" },
+            { en: "The best is yet to come.", zh: "最好的尚在途中" },
+            { en: "Your soul is a wild garden.", zh: "你的灵魂是旷野的花园" },
+            { en: "Trust the timing of your life.", zh: "相信生命中最好的安排" },
+            { en: "Create your own destiny.", zh: "去创造你自己的命运" },
+            { en: "Walk as if you are the light.", zh: "像光一样行走在世间" },
+            { en: "Courage is the key to all doors.", zh: "勇气是开启万物的钥匙" },
+            { en: "Great things take time.", zh: "美好的事物值得等待" },
+            { en: "The Gateway is Open for you.", zh: "门扉已为你开启" },
+            { en: "Fortune favors the bold.", zh: "上天眷顾勇者" },
+            { en: "Tianshui Gateway unlocked.", zh: "天水之门 已打开" },
+            { en: "A new chapter awaits.", zh: "新的篇章正在等待" },
+            { en: "Stay curious, stay brave.", zh: "保持好奇，保持勇敢" },
+            { en: "Everything is as it should be.", zh: "万事皆有定数" },
+            { en: "The stars align for you.", zh: "星辰为你连成一线" },
+            // 新增 3 句凑满 20 句
+            { en: "Listen to your inner voice.", zh: "聆听你内心的声音" },
+            { en: "You are the master of your fate.", zh: "你是你自己命运的主宰" },
+            { en: "Magic happens to those who believe.", zh: "奇迹只在相信它的人身上发生" }
+        ];
+
+        // 存储键名改成了 v5，确保所有人扫码都能刷出这 20 句里的新结果
+        let savedData = localStorage.getItem('ts_gate_data_v5');
         
-        if (!savedNum) {
-            // 如果是第一次扫码，随机生成一个 1-64 的数字
-            savedNum = Math.floor(Math.random() * 64) + 1;
-            // 存入手机，下次再扫还是这个
-            localStorage.setItem('my_unique_code', savedNum);
+        if (!savedData) {
+            let randomNum = Math.floor(Math.random() * 64) + 1;
+            let randomPair = messages[Math.floor(Math.random() * messages.length)];
+            savedData = JSON.stringify({ n: randomNum, e: randomPair.en, z: randomPair.zh });
+            localStorage.setItem('ts_gate_data_v5', savedData);
         }
-        
-        // 显示数字
-        document.getElementById('num').innerText = savedNum;
+
+        const data = JSON.parse(savedData);
+        document.getElementById('num').innerText = data.n;
+        document.getElementById('msg-en').innerText = data.e;
+        document.getElementById('msg-zh').innerText = data.z;
     </script>
 </body>
 </html>
