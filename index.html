@@ -1,40 +1,33 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.3">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>系统验证</title>
+    <style>
+        body { background: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; color: #00ff41; overflow: hidden; }
+        .label { color: #666; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 10px; }
+        #num { font-size: 6rem; font-weight: bold; text-shadow: 0 0 15px rgba(0,255,65,0.7); }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="zh"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;身份验证&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>body { background: #000; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'Courier New', Courier, monospace; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.label { font-size: 0.9rem; color: #666; margin-bottom: 10px; letter-spacing: 2px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>#num { font-size: 4rem; font-weight: bold; color: #00ff41; text-shadow: 0 0 15px rgba(0,255,65,0.7); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.line { width: 40px; height: 2px; background: #333; margin: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="label"&gt;RANDOM CODE GENERATED&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="num"&gt;----&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div class="line"&gt;&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>window.onload = () =&gt; {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const result = Math.floor(Math.random() * 900000) + 100000; // 生成6位随机数</p>
-<p class="p1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; { document.getElementById('num').innerText = result; }, 500);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+    <div class="label">DAILY SECURE CODE</div>
+    <div id="num">--</div>
+    <script>
+        // 获取当前日期（年-月-日）
+        const d = new Date();
+        const dateStr = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        
+        // 简单的哈希算法，保证同一天生成的数字固定
+        let hash = 0;
+        for (let i = 0; i < dateStr.length; i++) {
+            hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
+            hash |= 0;
+        }
+        
+        // 映射到 1-64 之间
+        const finalNum = Math.abs(hash % 64) + 1;
+        document.getElementById('num').innerText = finalNum;
+    </script>
 </body>
 </html>
