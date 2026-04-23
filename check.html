@@ -2,21 +2,29 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; }
-        #num { font-size: 6rem; font-weight: bold; }
+        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; overflow: hidden; }
+        .label { color: #444; font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 10px; }
+        #num { font-size: 8rem; font-weight: bold; text-shadow: 0 0 20px #00ff41; }
     </style>
 </head>
 <body>
-    <div style="color:#666">DAILY CODE</div>
+    <div class="label">UNIQUE TOKEN</div>
     <div id="num">--</div>
     <script>
-        const d = new Date();
-        const s = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-        let h = 0;
-        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
-        document.getElementById('num').innerText = Math.abs(h % 64) + 1;
+        // 尝试从手机本地存储读取已有的数字
+        let savedNum = localStorage.getItem('my_unique_code');
+        
+        if (!savedNum) {
+            // 如果是第一次扫码，随机生成一个 1-64 的数字
+            savedNum = Math.floor(Math.random() * 64) + 1;
+            // 存入手机，下次再扫还是这个
+            localStorage.setItem('my_unique_code', savedNum);
+        }
+        
+        // 显示数字
+        document.getElementById('num').innerText = savedNum;
     </script>
 </body>
 </html>
