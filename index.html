@@ -1,1 +1,22 @@
-<h1>123</h1>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; }
+        #num { font-size: 6rem; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div style="color:#666">DAILY CODE</div>
+    <div id="num">--</div>
+    <script>
+        const d = new Date();
+        const s = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+        let h = 0;
+        for (let i = 0; i < s.length; i++) { h = ((h << 5) - h) + s.charCodeAt(i); h |= 0; }
+        document.getElementById('num').innerText = Math.abs(h % 64) + 1;
+    </script>
+</body>
+</html>
