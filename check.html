@@ -22,26 +22,37 @@
     <div class="action-area">
         <button class="copy-btn" onclick="copyNum()">提取并解锁</button>
     </div>
+
     <script>
         const today = new Date().toLocaleDateString('zh-CN');
-        let storageData = localStorage.getItem('ts_marker_daily_v7');
+        let storageData = localStorage.getItem('ts_marker_daily_final');
         let finalNum;
+
         if (storageData) {
             const data = JSON.parse(storageData);
             if (data.date === today) { finalNum = data.num; }
         }
+
         if (!finalNum) {
             finalNum = Math.floor(Math.random() * 64) + 1;
-            localStorage.setItem('ts_marker_daily_v7', JSON.stringify({ date: today, num: finalNum }));
+            localStorage.setItem('ts_marker_daily_final', JSON.stringify({
+                date: today,
+                num: finalNum
+            }));
         }
+
         document.getElementById('num').innerText = finalNum;
+
         function copyNum() {
             const numText = document.getElementById('num').innerText;
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(numText).then(() => {
-                    alert("【标记 " + numText + " 已提取】\n\n请返回对话框发送\n解锁万象。");
+                    // 按你的要求更新弹窗文案
+                    alert("数字“" + numText + "”已提取\n\n请返回对话框粘贴发送\n解锁当下的万般秩序。");
                 });
-            } else { alert("请手动复制当前标记：" + numText); }
+            } else {
+                alert("请手动复制当前标记：" + numText);
+            }
         }
     </script>
 </body>
