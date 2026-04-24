@@ -4,28 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <style>
-        body { background: #000; color: #00ff41; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'PingFang SC', 'STHeiti', sans-serif; overflow: hidden; }
-        .label { color: #1a1a1a; font-size: 10px; letter-spacing: 6px; margin-bottom: 10px; }
-        .marker-text { color: #008f11; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 5px; }
-        #num { font-size: 120px; font-weight: bold; text-shadow: 0 0 20px #00ff41; margin: 0; line-height: 1; }
-        .desc { color: #008f11; font-size: 1rem; margin-top: 30px; letter-spacing: 4px; text-align: center; line-height: 2; font-weight: 300; }
+        /* 背景纯黑，衬托强光 */
+        body { background: #000; color: #8e91d5; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: 'PingFang SC', 'STHeiti', sans-serif; overflow: hidden; }
+        
+        /* 顶部装饰字，极淡的灰紫 */
+        .label { color: #2a2a35; font-size: 10px; letter-spacing: 6px; margin-bottom: 10px; }
+        
+        /* 核心文案：长春花蓝浅色，带一点点光晕 */
+        .marker-text { color: #8e91d5; font-size: 1.1rem; letter-spacing: 2px; margin-bottom: 5px; opacity: 0.9; text-shadow: 0 0 5px rgba(102, 103, 171, 0.4); }
+        
+        /* ========================================= */
+        /* 核心：发光数字与呼吸灯动画 */
+        /* ========================================= */
+        #num { 
+            font-size: 120px; 
+            font-weight: bold; 
+            color: #fff; /* 数字中心为纯白，更显亮 */
+            /* 初始强光阴影，融合蓝色和紫色，模拟长春花蓝光晕 */
+            text-shadow: 
+                0 0 10px #6667AB,   /* 核心光 */
+                0 0 20px #6667AB,   /* 扩散光 */
+                0 0 30px #8e44ad,   /* 紫色外圈 */
+                0 0 40px #3498db;   /* 蓝色最外圈 */
+            margin: 0; 
+            line-height: 1;
+            /* 绑定呼吸灯动画：3秒一个周期，无限循环，缓入缓出 */
+            animation: periBreath 3s infinite ease-in-out;
+        }
+
+        /* 呼吸灯动画定义 */
+        @keyframes periBreath {
+            0%, 100% {
+                /* 呼吸低谷：亮度稍暗，光晕收缩 */
+                color: #8e91d5;
+                text-shadow: 0 0 15px rgba(102, 103, 171, 0.6);
+            }
+            50% {
+                /* 呼吸巅峰：中心变白，强光爆发 */
+                color: #fff;
+                text-shadow: 
+                    0 0 15px #6667AB,
+                    0 0 25px #6667AB,
+                    0 0 40px #8e44ad,
+                    0 0 60px #3498db;
+            }
+        }
+        /* ========================================= */
+
+        /* 引导语：更浅的调子 */
+        .desc { color: #a5a7d9; font-size: 1rem; margin-top: 30px; letter-spacing: 4px; text-align: center; line-height: 2; font-weight: 300; }
+        
         .action-area { margin-top: 60px; text-align: center; }
-        .copy-btn { padding: 12px 45px; border: 1px solid #00ff41; color: #00ff41; background: transparent; cursor: pointer; font-size: 14px; letter-spacing: 4px; border-radius: 0; transition: all 0.3s; }
-        .copy-btn:active { background: #00ff41; color: #000; }
+        
+        /* 按钮：使用标准长春花蓝，增加一点光感 */
+        .copy-btn { 
+            padding: 12px 45px; 
+            border: 1px solid #6667AB; 
+            color: #6667AB; 
+            background: transparent; 
+            cursor: pointer; 
+            font-size: 14px; 
+            letter-spacing: 4px; 
+            border-radius: 0; 
+            transition: all 0.3s;
+            text-shadow: 0 0 5px rgba(102, 103, 171, 0.5);
+            box-shadow: 0 0 10px rgba(102, 103, 171, 0.2);
+        }
+        .copy-btn:active { background: #6667AB; color: #fff; box-shadow: 0 0 20px #6667AB; }
     </style>
 </head>
 <body>
     <div class="label">SYSTEM SYNCHRONIZATION</div>
     <div class="marker-text">当前时空标记</div>
     <div id="num">--</div>
-    <div class="desc">万物皆有定序<br>此间同频</div>
+    
+    <div class="desc">
+        万物皆有定序<br>
+        此间同频
+    </div>
+
     <div class="action-area">
         <button class="copy-btn" onclick="copyNum()">提取并解锁</button>
     </div>
 
     <script>
         const today = new Date().toLocaleDateString('zh-CN');
-        let storageData = localStorage.getItem('ts_marker_daily_final');
+        // 更新版本号以确保新效果立刻生效
+        let storageData = localStorage.getItem('ts_marker_daily_peri_glow');
         let finalNum;
 
         if (storageData) {
@@ -35,7 +100,7 @@
 
         if (!finalNum) {
             finalNum = Math.floor(Math.random() * 64) + 1;
-            localStorage.setItem('ts_marker_daily_final', JSON.stringify({
+            localStorage.setItem('ts_marker_daily_peri_glow', JSON.stringify({
                 date: today,
                 num: finalNum
             }));
@@ -47,7 +112,6 @@
             const numText = document.getElementById('num').innerText;
             if (navigator.clipboard) {
                 navigator.clipboard.writeText(numText).then(() => {
-                    // 按你的要求更新弹窗文案
                     alert("数字“" + numText + "”已提取\n\n请返回对话框粘贴发送\n解锁当下的万般秩序。");
                 });
             } else {
